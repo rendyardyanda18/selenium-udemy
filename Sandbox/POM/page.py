@@ -113,5 +113,3 @@ class MainPage(BasePage):
         self.click_button(*MainPageLocators.SEARCH_BUTTON)    
 
 
-class AdvancedSearchPage(BasePage):
-    pass
