@@ -1,37 +1,44 @@
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait 
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import TimeoutException, StaleElementReferenceException # for gpt 2
+from selenium.common.exceptions import (
+    # TimeoutException # for gpt 2
+    StaleElementReferenceException
+    )  # for gpt 2
 
 # tambahan gpt search()
-from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.common.keys import Keys  # tidak terpakai
 import time
 
 from locators import MainPageLocators
 from settings import WAIT_TIME
 
+
 class BasePage(object):
-    
+
     def __init__(self, driver):
         self.driver = driver
 
-    def get_element(self,locator_type, locator_string):
-        # return self.driver.find_element(locator_type, locator_string)   
+    def get_element(self, locator_type, locator_string):
+        # return self.driver.find_element(locator_type, locator_string)
 
-       # (before gpt)
+        # (before gpt)
         # element = WebDriverWait(self.driver, WAIT_TIME).until(
         #     EC.presence_of_element_located((locator_type, locator_string))
         # )
-        # return element 
+        # return element
         try:
             element = WebDriverWait(self.driver, WAIT_TIME).until(
-                EC.visibility_of_element_located((locator_type, locator_string))
+                EC.visibility_of_element_located((
+                    locator_type, locator_string
+                    ))
             )
             return element
         except NoSuchElementException as e:
-            print(f"Element with {locator_type} of {locator_string} not found", e)
+            print(
+                f"Element with {locator_type} of {locator_string} not found",
+                e)
             raise
-
 
 # (before gpt)
     # def get_text(self):
@@ -47,14 +54,16 @@ class BasePage(object):
     # def get_page_title(self):
     #     return self.driver.title
 
-#(gpt 1)
+# (gpt 1)
     # def enter_text(self, locator_type, locator_string, text):
     #     elem = self.get_element(locator_type, locator_string)
     #     elem.clear()   # opsional: bersihkan dulu
     #     elem.send_keys(text)
 
-#(gpt 2)
+# (gpt 2)
+
     def enter_text(self, locator_type, locator_string, text):
+
         """Masukkan teks dengan retry dan pastikan value benar-benar masuk"""
         for attempt in range(3):
             try:
@@ -67,14 +76,14 @@ class BasePage(object):
                 if attempt == 2:
                     raise
 
-#(gpt 1)
+# (gpt 1)
     # def click_button(self, locator_type, locator_string):
     #     elem = WebDriverWait(self.driver, WAIT_TIME).until(
     #         EC.element_to_be_clickable((locator_type, locator_string))
     #     )
     #     elem.click()
 
-#(gpt 2)
+# (gpt 2)
     def click_button(self, locator_type, locator_string):
         for attempt in range(3):  # coba ulang sampai 3 kali
             try:
@@ -89,9 +98,11 @@ class BasePage(object):
 
     def get_page_title(self):
         return self.driver.title
-    
+
+
 class MainPage(BasePage):
-#(before gpt)
+
+    # (before gpt)
     # def search(self, search_string):
     #     self.enter_text(*MainPageLocators.SEARCH_INPUT, search_string)
     #     self.click_button(*MainPageLocators.SEARCH_BUTTON)
@@ -110,6 +121,4 @@ class MainPage(BasePage):
             elem.send_keys(search_string)
 
         # Klik tombol setelah input benar-benar ada
-        self.click_button(*MainPageLocators.SEARCH_BUTTON)    
-
-
+        self.click_button(*MainPageLocators.SEARCH_BUTTON)

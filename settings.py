@@ -23,4 +23,4 @@ WIKIPEDIA_SEARCH_URL = 'https://en.wikipedia.org/w/index.php?search='
 
 
 # Constants
-WAIT_TIME = 10  # seconds
+WAIT_TIME = 20  # seconds

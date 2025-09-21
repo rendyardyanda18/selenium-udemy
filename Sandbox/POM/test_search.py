@@ -12,7 +12,7 @@ class WikipediaMainPAgeSearch(unittest.TestCase):
     def setUp(self):
         self.service = Service(executable_path=CHROMEDRIVER_PATH)
         self.driver = webdriver.Chrome(service=self.service)
-        self.driver.set_window_size(1280, 800)  #tambahan gpt
+        self.driver.set_window_size(1280, 800)  # tambahan gpt
         self.driver.get(WIKIPEDIA_URL)
 
     def test_search(self):
